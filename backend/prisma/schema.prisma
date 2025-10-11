@@ -8,11 +8,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/*
-NOTE : ADD 2 FIELDS AT THE END OF EVERY TABLE
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-*/
+/**
+ * NOTE : ADD 2 FIELDS AT THE END OF EVERY TABLE
+ * created_at DateTime @default(now())
+ * updated_at DateTime @updatedAt
+ */
 
 enum Role {
   STUDENT
@@ -26,63 +26,65 @@ enum StaffRole {
 }
 
 model users {
-  id                  Int              @id @default(autoincrement())
-  email               String           @unique
+  id                  Int       @id @default(autoincrement())
+  email               String    @unique
   name                String
   password            String
-  contact String?
+  contact             String?
   role                Role
-  date_of_birth      DateTime?
-  is_mail_verified    Boolean          @default(false)
-  is_contact_verified Boolean          @default(false)
+  date_of_birth       DateTime?
+  is_mail_verified    Boolean   @default(false)
+  is_contact_verified Boolean   @default(false)
+  verification_token  String?
+  verification_expiry DateTime?
 
-  staff_members       staff_members[]
-  user_sessions       user_sessions[]  @relation("UserToSessions")
+  staff_members staff_members[]
+  user_sessions user_sessions[] @relation("UserToSessions")
 
-  created_at          DateTime         @default(now())
-  updated_at          DateTime         @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model organizations {
-  id             Int              @id @default(autoincrement())
-  name           String
-  description    String?
-  website        String?
-  contact_email  String           @unique
-  contact_phone  String
-  address        String?
-  is_verified    Boolean          @default(false)
+  id            Int     @id @default(autoincrement())
+  name          String
+  description   String?
+  website       String?
+  contact_email String  @unique
+  contact_phone String
+  address       String?
+  is_verified   Boolean @default(false)
 
-  staff_members  staff_members[]  @relation("OrganizationToStaff")
+  staff_members staff_members[] @relation("OrganizationToStaff")
 
-  created_at     DateTime         @default(now())
-  updated_at     DateTime         @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model staff_members {
-  id               Int             @id @default(autoincrement())
-  organization_id  Int
-  user_id          Int
-  staff_role       StaffRole
-  joined_at        DateTime
+  id              Int       @id @default(autoincrement())
+  organization_id Int
+  user_id         Int
+  staff_role      StaffRole
+  joined_at       DateTime
 
-  organization     organizations   @relation("OrganizationToStaff", fields: [organization_id], references: [id])
-  user             users           @relation(fields: [user_id], references: [id])
+  organization organizations @relation("OrganizationToStaff", fields: [organization_id], references: [id])
+  user         users         @relation(fields: [user_id], references: [id])
 
-  created_at       DateTime        @default(now())
-  updated_at       DateTime        @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
-model user_sessions{
-  id Int @id @default(autoincrement())
-  user_id Int
-  login_time DateTime @default(now())
+model user_sessions {
+  id          Int       @id @default(autoincrement())
+  user_id     Int
+  login_time  DateTime  @default(now())
   logout_time DateTime?
   device_info String
-  ip_address String?
-  location String?
+  ip_address  String?
+  location    String?
 
-  user          users     @relation("UserToSessions",fields: [user_id], references: [id])
+  user users @relation("UserToSessions", fields: [user_id], references: [id])
 
   created_at DateTime @default(now())
   updated_at DateTime

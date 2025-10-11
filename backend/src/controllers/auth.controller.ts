@@ -1,14 +1,11 @@
 import { Request, Response } from "express";
 import prisma from "../config/prisma.config";
 import bcrypt from "bcryptjs";
-import { PROJECT_NAME } from "../constants/project.constant";
-import { SendMail } from "../utils/mail.util";
-import newAccountMail from "../constants/mails/newAccountMail";
+import { verificationMailQueue } from "../queues/verification.queue";
 
 export const signUp = async (req: Request, res: Response) => {
-  const { name, email, password, role, date_of_birth, org_name, org_description, org_email, staff_role } = req.body;
+  const { name, email, password, role, date_of_birth, org_name, org_description, org_email, org_phone, staff_role } = req.body;
 
-  // validate organization details here if the role is staff
   if (role === "STAFF") {
     if (!org_name || !org_description || !org_email || !staff_role) {
       return res.status(400).json({
@@ -17,10 +14,9 @@ export const signUp = async (req: Request, res: Response) => {
       });
     }
   }
-  try {
-    const existingUser = prisma.users.findUnique({ where: { email: email } });
-    console.log("existinguser:", existingUser);
 
+  try {
+    const existingUser = await prisma.users.findUnique({ where: { email } });
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -30,38 +26,44 @@ export const signUp = async (req: Request, res: Response) => {
 
     const encPassword = await bcrypt.hash(password, 10);
 
-    const user = await prisma.users.create({
-      data: {
-        name: name,
-        email: email,
-        password: encPassword,
-        role: role,
-        date_of_birth: date_of_birth,
-      },
-    });
-
-    console.log("new user:", user);
-
-    if (role === "STAFF") {
-      const organization = await prisma.organizations.create({
-        data: { name: org_name, description: org_description, contact_email: org_email, contact_phone: req.body.org_phone },
-      });
-
-      console.log("new organization:", organization);
-
-      const stafMember = await prisma.staff_members.create({
+    // transaction for DB operations
+    const result = await prisma.$transaction(async (tx) => {
+      const user = await tx.users.create({
         data: {
-          user_id: user.id,
-          organization_id: organization.id,
-          staff_role: staff_role,
-          joined_at: new Date(),
+          name,
+          email,
+          password: encPassword,
+          role,
+          date_of_birth,
         },
       });
 
-      console.log("new staff member:", stafMember);
-    }
+      if (role === "STAFF") {
+        const organization = await tx.organizations.create({
+          data: {
+            name: org_name,
+            description: org_description,
+            contact_email: org_email,
+            contact_phone: org_phone,
+          },
+        });
 
-    return res.status(201).json({
+        await tx.staff_members.create({
+          data: {
+            user_id: user.id,
+            organization_id: organization.id,
+            staff_role,
+            joined_at: new Date(),
+          },
+        });
+      }
+
+      return { user };
+    });
+
+    await verificationMailQueue.add("standard-mail", { user_id: result.user.id });
+
+    res.status(201).json({
       success: true,
       message: "Account created successfully, verify email to activate account",
     });
@@ -71,21 +73,6 @@ export const signUp = async (req: Request, res: Response) => {
       success: false,
       error: "Internal server error",
     });
-  } finally {
-    try {
-      // send a mail to user for verification
-      const originalMailBody = newAccountMail;
-
-      console.log("original mail:", originalMailBody);
-
-      const uniqueUrl = ``;
-      const alteredMailBody = originalMailBody.replace("{{VERIFY_URL}}", uniqueUrl);
-
-      await SendMail(email, "NEW_ACCCOUNT", `${PROJECT_NAME} - Activate account`, alteredMailBody);
-    } catch (error) {
-      console.log("Failed to send the verification mail", error);
-      // TODO: take an action
-    }
   }
 };
 
