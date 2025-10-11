@@ -79,7 +79,7 @@ export const signUp = async (req: Request, res: Response) => {
       console.log("original mail:", originalMailBody);
 
       const uniqueUrl = ``;
-      const alteredMailBody = originalMailBody.replace("", uniqueUrl);
+      const alteredMailBody = originalMailBody.replace("{{VERIFY_URL}}", uniqueUrl);
 
       await SendMail(email, "NEW_ACCCOUNT", `${PROJECT_NAME} - Activate account`, alteredMailBody);
     } catch (error) {
