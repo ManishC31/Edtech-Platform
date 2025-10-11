@@ -3,7 +3,7 @@
  */
 
 import nodemailer from "nodemailer";
-import { PROJECT_EMAIL, PROJECT_NAME } from "./constants";
+import { PROJECT_EMAIL, PROJECT_NAME } from "../constants/project.constant";
 
 // Create a test account or replace with real credentials.
 const transporter = nodemailer.createTransport({

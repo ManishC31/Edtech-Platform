@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import prisma from "../config/prisma.config";
 import bcrypt from "bcryptjs";
-import { PROJECT_NAME } from "../utils/constants";
+import { PROJECT_NAME } from "../constants/project.constant";
 import { SendMail } from "../utils/mail.util";
-import newAccountMail from "../utils/mails/newAccountMail";
+import newAccountMail from "../constants/mails/newAccountMail";
 
 export const signUp = async (req: Request, res: Response) => {
   const { name, email, password, role, date_of_birth, org_name, org_description, org_email, staff_role } = req.body;
