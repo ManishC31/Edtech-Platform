@@ -1,24 +1,25 @@
-/*
-  Warnings:
-
-  - Added the required column `updated_at` to the `users` table without a default value. This is not possible if the table is not empty.
-  - Changed the type of `role` on the `users` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.
-
-*/
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('STUDENT', 'STAFF', 'ADMIN');
 
 -- CreateEnum
 CREATE TYPE "StaffRole" AS ENUM ('INSTRUCTOR', 'EMPLOYEE');
 
--- AlterTable
-ALTER TABLE "users" ADD COLUMN     "contact" TEXT,
-ADD COLUMN     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN     "is_contact_verified" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "is_mail_verified" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "updated_at" TIMESTAMP(3) NOT NULL,
-DROP COLUMN "role",
-ADD COLUMN     "role" "Role" NOT NULL;
+-- CreateTable
+CREATE TABLE "users" (
+    "id" SERIAL NOT NULL,
+    "email" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "contact" TEXT,
+    "role" "Role" NOT NULL,
+    "date_of_birth" TIMESTAMP(3),
+    "is_mail_verified" BOOLEAN NOT NULL DEFAULT false,
+    "is_contact_verified" BOOLEAN NOT NULL DEFAULT false,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "organizations" (
@@ -63,6 +64,9 @@ CREATE TABLE "user_sessions" (
 
     CONSTRAINT "user_sessions_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "organizations_contact_email_key" ON "organizations"("contact_email");

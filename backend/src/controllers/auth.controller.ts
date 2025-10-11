@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import prisma from "../config/prisma.config";
 import bcrypt from "bcryptjs";
-import { PROJECT_NAME } from "../utils/constants";
+import { PROJECT_NAME } from "../constants/project.constant";
 import { SendMail } from "../utils/mail.util";
+import newAccountMail from "../constants/mails/newAccountMail";
 
 export const signUp = async (req: Request, res: Response) => {
   const { name, email, password, role, date_of_birth, org_name, org_description, org_email, staff_role } = req.body;
@@ -71,9 +72,20 @@ export const signUp = async (req: Request, res: Response) => {
       error: "Internal server error",
     });
   } finally {
-    // send a mail to user for verification
-    const mailBody = `<p>Hi ${name},</p>`;
-    await SendMail(email, "NEW_ACCCOUNT", `${PROJECT_NAME} - Activate account`, mailBody);
+    try {
+      // send a mail to user for verification
+      const originalMailBody = newAccountMail;
+
+      console.log("original mail:", originalMailBody);
+
+      const uniqueUrl = ``;
+      const alteredMailBody = originalMailBody.replace("{{VERIFY_URL}}", uniqueUrl);
+
+      await SendMail(email, "NEW_ACCCOUNT", `${PROJECT_NAME} - Activate account`, alteredMailBody);
+    } catch (error) {
+      console.log("Failed to send the verification mail", error);
+      // TODO: take an action
+    }
   }
 };
 
