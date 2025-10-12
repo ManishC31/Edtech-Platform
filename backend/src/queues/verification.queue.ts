@@ -41,10 +41,10 @@ const verificationMailWorker = new Worker(
 
       const response = await SendMailFunction("NEW_ACCOUNT", userData.email, `${PROJECT_NAME} - Account Activation`, alteredMailBody);
 
-      if (response.success) {
+      if (response) {
         console.log("[verification-mail]: Email send successfully");
       } else {
-        throw new Error(response.error);
+        throw new Error("Failed to send the mail");
       }
     } catch (err) {
       throw err;
