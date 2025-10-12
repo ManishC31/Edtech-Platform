@@ -32,23 +32,29 @@ import { PROJECT_EMAIL, PROJECT_NAME } from "../constants/project.constant";
 //   });
 // }
 
-import { Resend } from "resend";
+// import { Resend } from "resend";
 
-export async function SendMailFunction(tag: string, to: string, subject: string, body: string) {
-  try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
+// export async function SendMailFunction(tag: string, to: string, subject: string, body: string) {
+//   try {
+//     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    await resend.emails.send({
-      from: `"${PROJECT_NAME}" <${PROJECT_EMAIL}>`,
-      to,
-      subject,
-      html: body,
-    });
+//     const { data, error } = await resend.emails.send({
+//       from: `"${PROJECT_NAME}" <${PROJECT_EMAIL}>`,
+//       to,
+//       subject,
+//       html: body,
+//     });
 
-    console.log(`[${tag}] Email sent successfully to ${to}`);
-    return { success: true };
-  } catch (error) {
-    console.error(`[${tag}] Failed to send email to ${to}:`, error);
-    return { success: false, error };
-  }
-}
+//     if (error) {
+//       throw error;
+//     }
+
+//     console.log(`[${tag}] Email sent successfully to ${to}`);
+//     return { success: true };
+//   } catch (error) {
+//     console.error(`[${tag}] Failed to send email to ${to}:`, error);
+//     return { success: false, error };
+//   }
+// }
+
+export async function SendMailFunction(tag: string, to: string, subject: string, body: string) {}
