@@ -1,0 +1,56 @@
+model category {
+  id                  Int       @id @default(autoincrement())
+  name                String
+  tags                tags[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  
+}
+
+
+
+model course {
+    id              Int  @id @default(autoincrement)
+    short_des       String
+    long_des        String
+    image_url       String
+    language        String
+    categoryId      Int?
+    category        category? @relation(fields: [categoryId], references: [id])
+
+    course_modules   modules[]
+    total_time      int
+    discount        Int            
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+}
+
+model modules{
+    id              Int @id @default(autoincrement)
+    Name            String
+    total_lectures  Int
+    total_mins      Int
+    videos          videos[]
+    total_videos    Int
+
+    courseId      Int
+    course        course   @relation(fields: [courseId], references: [id])
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+}
+
+
+model videos{
+    id          Int @id @default(autoincrement)
+    Title        String
+    file_url     String
+    time_mins     Int
+
+    module      module @(fields:[moduleId], references: [id])
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+}
+
