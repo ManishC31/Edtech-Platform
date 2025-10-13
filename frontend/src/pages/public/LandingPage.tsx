@@ -1,10 +1,11 @@
-import React from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { useNavigate } from "react-router-dom";
+import AppLogo from "@/components/custom/Logo";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -33,15 +34,14 @@ export default function LandingPage() {
 }
 
 function Header() {
+  const navigate = useNavigate();
   return (
     <header className="border-b bg-white/60 backdrop-blur sticky top-0 z-40">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-3">
-          <div className="rounded-md bg-gradient-to-r from-indigo-500 to-emerald-400 p-2 text-white font-bold">EDU</div>
-          <div className="font-semibold">EduJunction</div>
-        </div>
+        <AppLogo />
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          <a className="hover:text-indigo-600" href="#in-demand">
+          {/* TODO: Add sections here */}
+          {/* <a className="hover:text-indigo-600" href="#in-demand">
             In Demand
           </a>
           <a className="hover:text-indigo-600" href="#latest">
@@ -49,11 +49,11 @@ function Header() {
           </a>
           <a className="hover:text-indigo-600" href="#faq">
             FAQ
-          </a>
-          <Button variant="ghost" className="ml-2">
+          </a> */}
+          <Button variant="ghost" className="ml-2" onClick={() => navigate("/login")}>
             Sign In
           </Button>
-          <Button>Get Started</Button>
+          <Button onClick={() => navigate("/register")}>Get Started</Button>
         </nav>
         <div className="md:hidden">
           <Button variant="ghost">Menu</Button>
