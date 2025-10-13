@@ -54,8 +54,8 @@ const LoginPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="bg-muted relative hidden lg:block">
-        <img src={AuthImage} className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
+      <div className="relative hidden lg:block">
+        <img src={AuthImage} className="absolute inset-0 h-full w-full object-cover" />
       </div>
     </div>
   );
