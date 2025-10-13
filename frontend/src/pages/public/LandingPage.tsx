@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
 import { useNavigate } from "react-router-dom";
 import AppLogo from "@/components/custom/Logo";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 12 },
@@ -19,11 +19,10 @@ const stagger = {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-background text-foreground">
       <Header />
       <main className="container mx-auto px-6 md:px-8">
         <Hero />
-        {/* <TrustedLogos /> */}
         <InDemandCourses />
         <LatestCourses />
         <FAQ />
@@ -36,24 +35,15 @@ export default function LandingPage() {
 function Header() {
   const navigate = useNavigate();
   return (
-    <header className="border-b bg-white/60 backdrop-blur sticky top-0 z-40">
+    <header className="border-b bg-background/60 backdrop-blur sticky top-0 z-40">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <AppLogo />
         <nav className="hidden md:flex items-center gap-6 text-sm">
-          {/* TODO: Add sections here */}
-          {/* <a className="hover:text-indigo-600" href="#in-demand">
-            In Demand
-          </a>
-          <a className="hover:text-indigo-600" href="#latest">
-            Latest
-          </a>
-          <a className="hover:text-indigo-600" href="#faq">
-            FAQ
-          </a> */}
           <Button variant="ghost" className="ml-2" onClick={() => navigate("/login")}>
             Sign In
           </Button>
-          <Button onClick={() => navigate("/register")}>Get Started</Button>
+          <Button onClick={() => navigate("/register")}>Sign Up</Button>
+          <ModeToggle />
         </nav>
         <div className="md:hidden">
           <Button variant="ghost">Menu</Button>
@@ -68,25 +58,18 @@ function Hero() {
     <section className="pt-16 pb-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         <motion.div className="lg:col-span-7" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.2 }} variants={stagger}>
-          <motion.h1 variants={fadeUp} className="text-4xl md:text-5xl font-extrabold leading-tight">
+          <motion.h1 variants={fadeUp} className="text-3xl md:text-4xl font-extrabold leading-tight">
             Deliver better learning outcomes.
             <br />
             Build courses. Track learners. Scale revenue.
           </motion.h1>
-          <motion.p variants={fadeUp} className="mt-4 text-lg text-slate-600 max-w-2xl">
+          <motion.p variants={fadeUp} className="mt-4 text-lg text-muted-foreground max-w-2xl">
             End-to-end EdTech platform built for instructors and schools. Course authoring, cohort management, analytics, and payments.
           </motion.p>
           <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3">
-            <Button className="shadow-md">Get Started</Button>
-            <Button variant="outline">Request Demo</Button>
+            <Button className="shadow-md">Join as an Educator</Button>
+            <Button variant="outline">Continue as a Student</Button>
           </motion.div>
-          <motion.form variants={fadeUp} className="mt-8 max-w-xl">
-            <div className="flex gap-2">
-              <Input placeholder="Enter your work email" />
-              <Button>Join</Button>
-            </div>
-            <div className="mt-3 text-xs text-slate-500">No credit card required. Cancel anytime.</div>
-          </motion.form>
         </motion.div>
 
         <motion.div
@@ -96,40 +79,23 @@ function Hero() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true, amount: 0.2 }}
         >
-          <Card className="shadow-lg">
+          <Card>
             <CardHeader>
               <CardTitle>Course Builder preview</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-56 w-full rounded-md bg-gradient-to-br from-white to-slate-100 flex items-center justify-center">
-                <div className="text-slate-400">Mock course editor preview</div>
-              </div>
+              <div className="h-56 w-full rounded-md bg-card text-muted-foreground flex items-center justify-center">Mock course editor preview</div>
             </CardContent>
             <CardFooter>
               <div className="w-full flex justify-between items-center">
-                <Badge>New</Badge>
-                <div className="text-sm text-slate-500">Preview of the drag & drop course builder.</div>
+                <Badge variant="secondary">New</Badge>
+                <div className="text-sm text-muted-foreground">Preview of the drag & drop course builder.</div>
               </div>
             </CardFooter>
           </Card>
         </motion.div>
       </div>
     </section>
-  );
-}
-
-function TrustedLogos() {
-  const logos = ["Google", "Udemy", "Coursera", "Stripe", "Zoom"];
-  return (
-    <div className="mt-6 mb-10">
-      <div className="flex flex-wrap items-center gap-6 justify-center opacity-80 text-sm">
-        {logos.map((l) => (
-          <div key={l} className="px-3 py-1 rounded-md bg-white/60 shadow-sm">
-            {l}
-          </div>
-        ))}
-      </div>
-    </div>
   );
 }
 
@@ -152,7 +118,7 @@ function InDemandCourses() {
                 <CardTitle>{c.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-slate-600">Course description goes here.</p>
+                <p className="text-sm text-muted-foreground">Course description goes here.</p>
               </CardContent>
               <CardFooter>
                 <Button variant="link">Enroll Now</Button>
@@ -184,7 +150,7 @@ function LatestCourses() {
                 <CardTitle>{c.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-slate-600">Course description goes here.</p>
+                <p className="text-sm text-muted-foreground">Course description goes here.</p>
               </CardContent>
               <CardFooter>
                 <Button variant="link">Enroll Now</Button>
@@ -198,21 +164,21 @@ function LatestCourses() {
 }
 
 function FAQ() {
-  const questions = Array.from({ length: 5 }, (_, i) => ({ q: `Question ${i + 1}`, a: `Answer for question ${i + 1}` }));
+  const questions = Array.from({ length: 10 }, (_, i) => ({ q: `Question ${i + 1}`, a: `Answer for question ${i + 1}` }));
   return (
     <section id="faq" className="py-12">
       <div className="grid md:grid-cols-2 gap-6">
         <div>
           <h3 className="text-xl font-bold">Frequently asked questions</h3>
-          <p className="mt-2 text-slate-600">Click to expand answers for common questions.</p>
+          <p className="mt-2 text-muted-foreground">Click to expand answers for common questions.</p>
         </div>
         <div className="flex flex-col gap-2">
           {questions.map((q, i) => (
             <Collapsible key={i}>
-              <CollapsibleTrigger className="w-full text-left font-semibold py-2 px-3 bg-white rounded-md shadow-sm hover:bg-slate-50">
+              <CollapsibleTrigger className="w-full text-left font-semibold py-2 px-3 bg-card text-foreground rounded-md shadow-sm hover:bg-accent/50">
                 {q.q}
               </CollapsibleTrigger>
-              <CollapsibleContent className="p-3 text-sm text-slate-600 bg-white rounded-md shadow-inner">{q.a}</CollapsibleContent>
+              <CollapsibleContent className="p-3 text-sm text-muted-foreground bg-card rounded-md shadow-inner">{q.a}</CollapsibleContent>
             </Collapsible>
           ))}
         </div>
@@ -223,13 +189,13 @@ function FAQ() {
 
 function Footer() {
   return (
-    <footer className="mt-12 border-t bg-white/60">
+    <footer className="mt-12 border-t bg-background/60">
       <div className="container mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-3">
-          <div className="rounded-md bg-gradient-to-r from-indigo-500 to-emerald-400 p-2 text-white font-bold">EDU</div>
+          <div className="rounded-md bg-primary p-2 text-primary-foreground font-bold">EDU</div>
           <div>EduJunction © {new Date().getFullYear()}</div>
         </div>
-        <div className="text-sm text-slate-600">Privacy · Terms · Status</div>
+        <div className="text-sm text-muted-foreground">Privacy · Terms · Status</div>
       </div>
     </footer>
   );
