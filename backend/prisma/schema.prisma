@@ -80,12 +80,14 @@ model user_sessions {
   user_id     Int
   login_time  DateTime  @default(now())
   logout_time DateTime?
-  device_info String
+  operating_system String?
+  browser_name String?
+  browser_version String?
   ip_address  String?
-  location    String?
+  location    String? 
 
   user users @relation("UserToSessions", fields: [user_id], references: [id])
 
   created_at DateTime @default(now())
-  updated_at DateTime
+  updated_at DateTime @updatedAt
 }
