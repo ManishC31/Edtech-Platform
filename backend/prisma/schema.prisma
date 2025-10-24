@@ -8,6 +8,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 /**
  * NOTE : ADD 2 FIELDS AT THE END OF EVERY TABLE
  * created_at DateTime @default(now())

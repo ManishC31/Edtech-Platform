@@ -1,56 +1,59 @@
-model category {
-  id                  Int       @id @default(autoincrement())
-  name                String
-  tags                tags[]
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String
+  courses   Course[] // Relation to courses
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id          Int      @id @default(autoincrement()) // FIX: Added ()
+  shortDes    String
+  longDes     String
+  imageUrl    String
+  language    String
+  totalTime   Int      // FIX: Changed 'int' to 'Int'
+  discount    Int
+
+  // Relation to Category
+  categoryId  Int?
+  category    Category? @relation(fields: [categoryId], references: [id])
+
+  // Relation to Modules
+  courseModules Module[] // FIX: Renamed 'modules' to 'Module'
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Module {
+  id            Int      @id @default(autoincrement()) // FIX: Added ()
+  name          String
+  totalLectures Int
+  totalMins     Int
+  totalVideos   Int
+
+  // Relation to Course
+  courseId      Int
+  course        Course   @relation(fields: [courseId], references: [id])
   
+  // Relation to Videos
+  videos        Video[]  // FIX: Renamed 'videos' to 'Video'
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
+model Video {
+  id        Int      @id @default(autoincrement())
+  title     String
+  fileUrl   String
+  timeMins  Int
 
+  // Relation to Module
+  module    Module   @relation(fields: [moduleId], references: [id])
+  moduleId  Int
 
-model course {
-    id              Int  @id @default(autoincrement)
-    short_des       String
-    long_des        String
-    image_url       String
-    language        String
-    categoryId      Int?
-    category        category? @relation(fields: [categoryId], references: [id])
-
-    course_modules   modules[]
-    total_time      int
-    discount        Int            
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-
-model modules{
-    id              Int @id @default(autoincrement)
-    Name            String
-    total_lectures  Int
-    total_mins      Int
-    videos          videos[]
-    total_videos    Int
-
-    courseId      Int
-    course        course   @relation(fields: [courseId], references: [id])
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-
-}
-
-
-model videos{
-    id          Int @id @default(autoincrement)
-    Title        String
-    file_url     String
-    time_mins     Int
-
-    module      module @(fields:[moduleId], references: [id])
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-
-}
-
