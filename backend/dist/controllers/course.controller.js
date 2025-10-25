@@ -15,14 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const prisma_config_1 = __importDefault(require("../config/prisma.config"));
 exports.getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const allCategories = yield prisma_config_1.default.Category.findMany({
+        const allCategories = yield prisma_config_1.default.category.findMany({
             include: {
-                id: true,
-                name: true,
-                courses: true,
+                courses: {
+                    select: {
+                        id: true,
+                        name: true,
+                        imageUrl: true,
+                        shortDes: true
+                    }
+                },
             }
         });
-        res.jason(allCategories);
+        res.json(allCategories);
         console.log("Categories", allCategories);
     }
     catch (error) {
