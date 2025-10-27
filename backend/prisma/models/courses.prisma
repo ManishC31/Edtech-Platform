@@ -1,24 +1,24 @@
-model Category {
+model category {
   id        Int      @id @default(autoincrement())
   name      String
-  courses   Course[] // Relation to courses
+  courses   course[] // Relation to courses
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Course {
+model course {
   id          Int      @id @default(autoincrement()) // FIX: Added ()
   name        String
-  shortDes    String
-  longDes     String
-  imageUrl    String
+  shortdes    String
+  longdes     String
+  imageurl    String
   language    String
-  totalTime   Int      // FIX: Changed 'int' to 'Int'
+  totaltime   Int      // FIX: Changed 'int' to 'Int'
   discount    Int
 
   // Relation to Category
   categoryId  Int?
-  category    Category? @relation(fields: [categoryId], references: [id])
+  category    category? @relation(fields: [categoryId], references: [id])
 
   // Relation to Modules
   courseModules Module[] // FIX: Renamed 'modules' to 'Module'
@@ -36,7 +36,7 @@ model Module {
 
   // Relation to Course
   courseId      Int
-  course        Course   @relation(fields: [courseId], references: [id])
+  course        course   @relation(fields: [courseId], references: [id])
   
   // Relation to Videos
   videos        Video[]  // FIX: Renamed 'videos' to 'Video'

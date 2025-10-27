@@ -34,12 +34,12 @@ export const getCategories =async (req,res) => {
         c.name AS "categoryName",    
         co.id AS "courseId",         
         co.name AS "courseName",
-        co.imageUrl AS "imageURL",   
-        co.shortDes AS "shortDesc"
+        co.imageurl AS "imageURL",   
+        co.shortdes AS "shortDesc"
     FROM 
-        Category c
+    category c
     LEFT JOIN
-        Course co ON c.id = co."categoryId"
+        course co ON c.id = co."categoryId"
     ORDER BY
         "categoryId", "courseId";
 `;

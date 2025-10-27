@@ -5,7 +5,7 @@ import cors from "cors";
 
 // import routes
 import authRoutes from "./routes/auth.route";
-
+import courseRoutes from "./routes/course.route";
 const app: Express = express();
 
 // middlewares
@@ -16,6 +16,7 @@ app.use(cors());
 
 // routes
 app.use("/api/auth", authRoutes);
+app.use("/api/course", courseRoutes);
 
 app.get("/health", (req: Request, res: Response) => {
   res.status(200).json({
