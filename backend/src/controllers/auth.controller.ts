@@ -7,6 +7,9 @@ import { UAParser } from "ua-parser-js";
 import requestIp from "request-ip";
 
 export const signUp = async (req: Request, res: Response) => {
+  // #swagger.tags = ['Authentication']
+  // #swagger.description = 'Create a new user with any kind of role. Provide details as per the requirement of the role.'
+
   const { name, email, password, role, date_of_birth, org_name, org_description, org_email, org_phone, staff_role } = req.body;
 
   if (role === "STAFF") {
@@ -80,6 +83,9 @@ export const signUp = async (req: Request, res: Response) => {
 };
 
 export const signIn = async (req: Request, res: Response) => {
+  // #swagger.tags = ['Authentication']
+  // #swagger.description = 'Login the user into application'
+
   const { email, password } = req.body;
 
   try {
@@ -168,6 +174,9 @@ export const signIn = async (req: Request, res: Response) => {
 };
 
 export const sendVerificationMail = async (req: Request, res: Response) => {
+  // #swagger.tags = ['Authentication']
+  // #swagger.description = 'Api to send the verification mail to user. Note that, it can send verification mail only when the user hasn't authenticated yet.'
+
   const { email } = req.body;
 
   try {
@@ -202,6 +211,9 @@ export const sendVerificationMail = async (req: Request, res: Response) => {
 };
 
 export const verifyEmail = async (req: Request, res: Response) => {
+  // #swagger.tags = ['Authentication']
+  // #swagger.description = 'Verify the user verification link'
+
   const { token } = req.query;
 
   if (typeof token !== "string") {
@@ -266,6 +278,9 @@ export const verifyEmail = async (req: Request, res: Response) => {
 };
 
 export const signOut = async (req: Request, res: Response) => {
+  // #swagger.tags = ['Authentication']
+  // #swagger.description = 'Logout the current logged in user from the application'
+
   res.clearCookie("token");
   return res.status(200).json({
     success: true,
