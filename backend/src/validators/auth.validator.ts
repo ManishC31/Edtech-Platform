@@ -16,3 +16,11 @@ export const loginUserSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6).max(100),
 });
+
+export const sendVerificationMailSchema = z.object({
+  email: z.string().email(),
+});
+
+export const mailVerificationSchema = z.object({
+  token: z.string(),
+});
