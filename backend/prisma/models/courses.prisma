@@ -1,11 +1,3 @@
-model category {
-  id        Int      @id @default(autoincrement())
-  name      String
-  courses   course[] // Relation to courses
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model course {
   id          Int      @id @default(autoincrement()) // FIX: Added ()
   name        String
@@ -27,37 +19,6 @@ model course {
   updatedAt   DateTime @updatedAt
 }
 
-model Module {
-  id            Int      @id @default(autoincrement()) // FIX: Added ()
-  name          String
-  totalLectures Int
-  totalMins     Int
-  totalVideos   Int
 
-  // Relation to Course
-  courseId      Int
-  course        course   @relation(fields: [courseId], references: [id])
-  
-  // Relation to Videos
-  videos        Video[]  // FIX: Renamed 'videos' to 'Video'
-
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-}
-
-model Video {
-  id        Int      @id @default(autoincrement())
-  title     String
-  fileUrl   String
-  timeMins  Int
-
-  // Relation to Module
-  module    Module   @relation(fields: [moduleId], references: [id])
-  moduleId  Int
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-}
 
 
