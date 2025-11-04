@@ -8,8 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
 /**
  * NOTE : ADD 2 FIELDS AT THE END OF EVERY TABLE
  * created_at DateTime @default(now())
@@ -78,19 +76,18 @@ model staff_members {
 }
 
 model user_sessions {
-  id          Int       @id @default(autoincrement())
-  user_id     Int
-  login_time  DateTime  @default(now())
-  logout_time DateTime?
+  id               Int       @id @default(autoincrement())
+  user_id          Int
+  login_time       DateTime  @default(now())
+  logout_time      DateTime?
   operating_system String?
-  browser_name String?
-  browser_version String?
-  ip_address  String?
-  location    String? 
+  browser_name     String?
+  browser_version  String?
+  ip_address       String?
+  location         String?
 
   user users @relation("UserToSessions", fields: [user_id], references: [id])
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
-

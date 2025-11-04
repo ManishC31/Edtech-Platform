@@ -1,14 +1,14 @@
 model video {
-  id        Int      @id @default(autoincrement())
-  title     String
-  fileUrl   String
-  timeMins  Int
+  id           Int    @id @default(autoincrement())
+  title        String
+  file_url     String
+  time_mins    Int
+  resource_url String
 
   // Relation to Module
   module    module   @relation(fields: [moduleId], references: [id])
   moduleId  Int
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
