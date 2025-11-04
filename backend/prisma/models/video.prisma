@@ -5,7 +5,7 @@ model video {
   timeMins  Int
 
   // Relation to Module
-  module    Module   @relation(fields: [moduleId], references: [id])
+  module    module   @relation(fields: [moduleId], references: [id])
   moduleId  Int
 
   createdAt DateTime @default(now())
