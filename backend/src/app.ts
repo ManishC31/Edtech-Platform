@@ -21,7 +21,7 @@ app.use(cors());
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/course", courseRoutes);
-app.use("/aoi/module", moduleRoutes);
+app.use("/api/module", moduleRoutes);
 
 // Serve Swagger documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
