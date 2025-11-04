@@ -1,17 +1,17 @@
 model module {
-  id            Int      @id @default(autoincrement()) // FIX: Added ()
-  name          String
-  totalLectures Int
-  totalMins     Int
-  totalVideos   Int
+  id             Int    @id @default(autoincrement())
+  name           String
+  total_lectures Int
+  total_mins     Int
+  total_videos   Int
 
   // Relation to Course
-  courseId      Int
-  course        course   @relation(fields: [courseId], references: [id])
-  
-  // Relation to Videos
-  videos        Video[]  // FIX: Renamed 'videos' to 'Video'
+  course_id Int
+  course    course @relation(fields: [course_id], references: [id])
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  // Relation to Videos
+  videos video[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
