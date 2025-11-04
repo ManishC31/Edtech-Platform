@@ -1,12 +1,15 @@
 model course {
-  id                Int    @id @default(autoincrement()) // FIX: Added ()
+  id                Int    @id @default(autoincrement())
   name              String
   short_description String
   long_description  String
   image_url         String
-  language          String
-  total_time_mins   Int
-  discount          Int
+  language          String @default("en")
+  total_time_mins   Int    @default(0)
+  price             Float
+  currency          String
+  discount          Float  @default(0.0)
+  selling_price     Float
 
   // Relation to Category
   category_id Int?
@@ -14,6 +17,6 @@ model course {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-  module    module[]
+
+  module module[]
 }

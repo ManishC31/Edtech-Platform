@@ -1,9 +1,9 @@
 model module {
   id             Int    @id @default(autoincrement())
   name           String
-  total_lectures Int
-  total_mins     Int
-  total_videos   Int
+  total_lectures Int    @default(0)
+  total_mins     Int    @default(0)
+  total_videos   Int    @default(0)
 
   // Relation to Course
   course_id Int

@@ -7,7 +7,9 @@ import swaggerDocument from "./swagger-output.json";
 
 // import routes
 import authRoutes from "./routes/auth.route";
-import courseRoutes from "./routes/course.route";
+import courseRoutes from "./routes/category.route";
+import moduleRoutes from "./routes/module.route";
+
 const app: Express = express();
 
 // middlewares
@@ -19,6 +21,7 @@ app.use(cors());
 // routes
 app.use("/api/auth", authRoutes);
 app.use("/api/course", courseRoutes);
+app.use("/aoi/module", moduleRoutes);
 
 // Serve Swagger documentation
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -30,6 +33,3 @@ app.get("/health", (req: Request, res: Response) => {
 });
 
 export default app;
-
-
-
