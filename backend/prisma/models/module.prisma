@@ -10,7 +10,7 @@ model module {
   course    course @relation(fields: [course_id], references: [id])
 
   // Relation to Videos
-  videos video[]
+  videos        video[]  // FIX: Renamed 'videos' to 'Video'
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

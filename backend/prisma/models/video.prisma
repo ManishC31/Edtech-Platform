@@ -6,8 +6,8 @@ model video {
   resource_url String
 
   // Relation to Module
-  module    module @relation(fields: [module_id], references: [id])
-  module_id Int
+  module    module   @relation(fields: [moduleId], references: [id])
+  moduleId  Int
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
