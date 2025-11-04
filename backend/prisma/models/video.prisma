@@ -1,9 +1,9 @@
 model video {
-  id           Int    @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   title        String
   file_url     String
   time_mins    Int
-  resource_url String
+  resource_url String?
 
   // Relation to Module
   module    module   @relation(fields: [moduleId], references: [id])
