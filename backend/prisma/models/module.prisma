@@ -1,0 +1,17 @@
+model module {
+  id             Int    @id @default(autoincrement())
+  name           String
+  total_lectures Int
+  total_mins     Int
+  total_videos   Int
+
+  // Relation to Course
+  course_id Int
+  course    course @relation(fields: [course_id], references: [id])
+
+  // Relation to Videos
+  videos video[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

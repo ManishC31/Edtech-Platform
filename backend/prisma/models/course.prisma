@@ -1,0 +1,19 @@
+model course {
+  id                Int    @id @default(autoincrement()) // FIX: Added ()
+  name              String
+  short_description String
+  long_description  String
+  image_url         String
+  language          String
+  total_time_mins   Int
+  discount          Int
+
+  // Relation to Category
+  category_id Int?
+  category    category? @relation(fields: [category_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  module    module[]
+}
