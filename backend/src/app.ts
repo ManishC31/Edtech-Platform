@@ -9,6 +9,7 @@ import swaggerDocument from "./swagger-output.json";
 import authRoutes from "./routes/auth.route";
 import courseRoutes from "./routes/category.route";
 import moduleRoutes from "./routes/module.route";
+import categoryRoutes from "./routes/category.route"
 
 const app: Express = express();
 
@@ -20,7 +21,7 @@ app.use(cors());
 
 // routes
 app.use("/api/auth", authRoutes);
-app.use("/api/course", courseRoutes);
+app.use("/api/category", categoryRoutes);
 app.use("/api/module", moduleRoutes);
 
 // Serve Swagger documentation
